@@ -26,7 +26,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 
 # Rbenv
 set :rbenv_type, :user
-set :rbenv_ruby, "3.2.2"
+set :rbenv_ruby, "4.0.0"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
