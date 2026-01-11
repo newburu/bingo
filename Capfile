@@ -35,6 +35,8 @@ require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 require "capistrano/puma"
 install_plugin Capistrano::Puma
+require "capistrano/puma/systemd"
+install_plugin Capistrano::Puma::Systemd
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 require "capistrano/rbenv"
