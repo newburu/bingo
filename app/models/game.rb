@@ -1,6 +1,6 @@
 class Game < ApplicationRecord
   has_secure_password validations: false
-  serialize :history, coder: JSON
+  attribute :history, :json
 
   before_create :generate_token
 
