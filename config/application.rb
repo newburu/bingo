@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 # Load .env file in production
 if Rails.env.production?
-  Dotenv.load(Rails.root.join(".env"))
+  Dotenv.load(File.expand_path("../.env", __dir__))
 end
 
 module Bingo
