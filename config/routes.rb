@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-  root "games#index"
-  post "games/spin", to: "games#spin", as: :spin_games
-  post "games/reset", to: "games#reset", as: :reset_games
+  root "games#create"
+
+  resources :games, param: :token, only: [ :show, :create ] do
+    member do
+      post :spin
+      post :reset
+    end
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

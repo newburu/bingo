@@ -1,0 +1,12 @@
+<div class="min-h-screen w-full flex flex-col items-center justify-center py-10 font-sans text-slate-800">
+  <div class="text-center">
+    <h1 class="text-9xl font-black text-indigo-100 mb-4">404</h1>
+    <h2 class="text-4xl font-bold text-indigo-900 mb-6">ゲームが見つかりません</h2>
+    <p class="text-xl text-slate-500 mb-10">
+      お探しのビンゴゲームは削除されたか、URLが間違っている可能性があります。<br>
+      新しいゲームを作成して、ビンゴパーティーを始めましょう！
+    </p>
+
+    <%= button_to "新しいゲームを作成する", root_path, method: :get, class: "bg-indigo-600 hover:bg-indigo-700 text-white text-2xl font-bold py-4 px-10 rounded-full shadow-xl transition-transform active:scale-95 cursor-pointer" %>
+  </div>
+</div>

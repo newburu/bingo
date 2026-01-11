@@ -1,12 +1,8 @@
 class Game < ApplicationRecord
-  # 最新のゲームを取得、なければ作成
-  def self.current_game
-    last_game = last
-    if last_game.nil? || last_game.finished?
-      create(history: [])
-    else
-      last_game
-    end
+  before_create :generate_token
+
+  def to_param
+    token
   end
 
   def spin!
@@ -33,5 +29,11 @@ class Game < ApplicationRecord
 
   def finished?
     history.size >= 75
+  end
+
+  private
+
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64(8)
   end
 end

@@ -1,22 +1,37 @@
 class GamesController < ApplicationController
-  def index
-    @game = Game.current_game
+  before_action :set_game, only: [ :show, :spin, :reset ]
+  rescue_from ActiveRecord::RecordNotFound, with: :game_not_found
+
+  def create
+    @game = Game.create(history: [])
+    redirect_to game_path(@game)
+  end
+
+  def show
   end
 
   def spin
-    @game = Game.current_game
     @game.spin!
     sleep 2.0 unless params[:skip_animation] == "1" # Animation delay
 
     respond_to do |format|
-      format.html { redirect_to root_path }
+      format.html { redirect_to game_path(@game) }
       format.turbo_stream
     end
   end
 
   def reset
-    @game = Game.current_game
     @game.reset!
-    redirect_to root_path
+    redirect_to game_path(@game)
+  end
+
+  private
+
+  def set_game
+    @game = Game.find_by!(token: params[:token])
+  end
+
+  def game_not_found
+    render :not_found, status: :not_found
   end
 end
