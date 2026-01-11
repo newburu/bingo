@@ -6,7 +6,12 @@ class GamesController < ApplicationController
   def spin
     @game = Game.current_game
     @game.spin!
-    redirect_to root_path
+    sleep 2.0 unless params[:skip_animation] == "1" # Animation delay
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.turbo_stream
+    end
   end
 
   def reset

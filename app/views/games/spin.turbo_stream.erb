@@ -1,0 +1,60 @@
+<%= turbo_stream.replace "current_number" do %>
+  <div id="current_number" class="mb-10 text-center">
+    <div class="text-gray-500 text-lg mb-2 font-medium tracking-wider">現在の数字</div>
+    <div data-bingo-target="number" class="text-[12rem] leading-none font-black text-amber-500 drop-shadow-md tabular-nums scale-125 transition-transform duration-500 ease-out">
+      <%= @game.current_number %>
+    </div>
+    <% if @game.finished? %>
+      <div class="text-3xl font-bold text-red-500 mt-4 animate-bounce">終了！</div>
+    <% end %>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "history_board" do %>
+  <div id="history_board" class="bg-white rounded-3xl shadow-2xl p-8 max-w-4xl w-full border border-slate-100">
+    <div class="grid grid-cols-5 gap-8">
+      <% 
+        columns = {
+          'B' => (1..15),
+          'I' => (16..30),
+          'N' => (31..45),
+          'G' => (46..60),
+          'O' => (61..75)
+        }
+      %>
+
+      <% columns.each do |letter, range| %>
+        <div class="flex flex-col gap-3">
+          <div class="text-5xl font-black text-center text-slate-200 mb-4 font-mono"><%= letter %></div>
+          
+          <% range.each do |num| %>
+            <% is_hit = @game.history.include?(num) %>
+            <% is_last = @game.current_number == num %>
+            
+            <div class="h-14 flex items-center justify-center rounded-xl text-xl font-bold transition-all duration-300 
+              <%= is_last ? 'bg-amber-400 text-white scale-110 shadow-lg ring-4 ring-amber-200 z-10' : 
+                  (is_hit ? 'bg-indigo-500 text-white shadow-md' : 'bg-slate-50 text-slate-300') %>">
+              <%= num %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "controls" do %>
+  <div id="controls" class="flex flex-col items-center gap-4 mb-12">
+    <%= form_with url: spin_games_path, method: :post, data: { action: "turbo:submit-start->bingo#spin turbo:submit-end->bingo#stop" }, class: "flex flex-col items-center gap-4" do |f| %>
+      <%= f.button "回す！", disabled: @game.finished?, class: "bg-indigo-600 hover:bg-indigo-700 text-white text-3xl font-bold py-6 px-16 rounded-full shadow-xl transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide cursor-pointer" %>
+      
+      <label class="flex items-center gap-2 text-slate-500 cursor-pointer hover:text-indigo-600 transition-colors">
+        <%= f.check_box :skip_animation, { checked: params[:skip_animation] == "1", data: { bingo_target: "checkbox" }, class: "w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300" }, "1", "0" %>
+        <span class="text-sm font-medium">アニメーションなし</span>
+      </label>
+    <% end %>
+    
+    <%= button_to "リセット", reset_games_path, method: :post, form: { data: { turbo_confirm: "本当にリセットしますか？" } }, 
+        class: "text-slate-400 hover:text-red-500 text-sm font-semibold tracking-wide uppercase transition-colors" %>
+  </div>
+<% end %>
