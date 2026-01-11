@@ -6,6 +6,11 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Load .env file in production
+if Rails.env.production?
+  Dotenv.load(Rails.root.join(".env"))
+end
+
 module Bingo
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
