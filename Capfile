@@ -35,4 +35,6 @@ require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
+require "capistrano/rbenv"
+require "dotenv/load"
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

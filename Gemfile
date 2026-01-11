@@ -70,3 +70,4 @@ end
 gem "dotenv-rails", "~> 3.2"
 gem "capistrano", "~> 3.20"
 gem "capistrano-rails", "~> 1.7"
+gem "capistrano-rbenv"
