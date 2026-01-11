@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  root "games#create"
+  root "games#new"
 
-  resources :games, param: :token, only: [ :show, :create ] do
+  resources :games, param: :token, only: [ :show, :create, :new ] do
     member do
       post :spin
       post :reset
+      post :auth
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_11_041958) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_11_042934) do
   create_table "games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.json "history"
+    t.string "password_digest"
     t.string "token"
     t.datetime "updated_at", null: false
     t.index ["token"], name: "index_games_on_token"

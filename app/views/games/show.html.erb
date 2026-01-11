@@ -14,19 +14,23 @@
   </div>
 
   <!-- Controls -->
-  <div id="controls" class="flex flex-col items-center gap-4 mb-12">
-    <%= form_with url: spin_game_path(@game), method: :post, data: { action: "turbo:submit-start->bingo#spin turbo:submit-end->bingo#stop" }, class: "flex flex-col items-center gap-4" do |f| %>
-      <%= f.button "回す！", disabled: @game.finished?, class: "bg-indigo-600 hover:bg-indigo-700 text-white text-3xl font-bold py-6 px-16 rounded-full shadow-xl transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide cursor-pointer" %>
+  <% if @authenticated %>
+    <div id="controls" class="flex flex-col items-center gap-4 mb-12">
+      <%= form_with url: spin_game_path(@game), method: :post, data: { action: "turbo:submit-start->bingo#spin turbo:submit-end->bingo#stop" }, class: "flex flex-col items-center gap-4" do |f| %>
+        <%= f.button "回す！", disabled: @game.finished?, class: "bg-indigo-600 hover:bg-indigo-700 text-white text-3xl font-bold py-6 px-16 rounded-full shadow-xl transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide cursor-pointer" %>
+        
+        <label class="flex items-center gap-2 text-slate-500 cursor-pointer hover:text-indigo-600 transition-colors">
+          <%= f.check_box :skip_animation, { checked: params[:skip_animation] == "1", data: { bingo_target: "checkbox" }, class: "w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300" }, "1", "0" %>
+          <span class="text-sm font-medium">アニメーションなし</span>
+        </label>
+      <% end %>
       
-      <label class="flex items-center gap-2 text-slate-500 cursor-pointer hover:text-indigo-600 transition-colors">
-        <%= f.check_box :skip_animation, { checked: params[:skip_animation] == "1", data: { bingo_target: "checkbox" }, class: "w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300" }, "1", "0" %>
-        <span class="text-sm font-medium">アニメーションなし</span>
-      </label>
-    <% end %>
-    
-    <%= button_to "リセット", reset_game_path(@game), method: :post, form: { data: { turbo_confirm: "本当にリセットしますか？" } }, 
-        class: "text-slate-400 hover:text-red-500 text-sm font-semibold tracking-wide uppercase transition-colors" %>
-  </div>
+      <%= button_to "リセット", reset_game_path(@game), method: :post, form: { data: { turbo_confirm: "本当にリセットしますか？" } }, 
+          class: "text-slate-400 hover:text-red-500 text-sm font-semibold tracking-wide uppercase transition-colors" %>
+    </div>
+  <% else %>
+    <%= render "password_form", game: @game %>
+  <% end %>
 
   <!-- History Board -->
   <div id="history_board" class="bg-white rounded-3xl shadow-2xl p-8 max-w-4xl w-full border border-slate-100">

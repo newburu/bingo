@@ -1,4 +1,5 @@
 class Game < ApplicationRecord
+  has_secure_password validations: false
   before_create :generate_token
 
   def to_param
