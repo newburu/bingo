@@ -3,6 +3,7 @@ lock "~> 3.20.0"
 
 set :application, ENV.fetch("APP_NAME")
 set :repo_url, ENV.fetch("GIT_REPO_URL")
+set :branch, "main"
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, ENV.fetch("DEPLOY_PATH")
@@ -18,7 +19,7 @@ set :deploy_to, ENV.fetch("DEPLOY_PATH")
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", ".env"
+append :linked_files, "config/database.yml", ".env", "config/master.key"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", ".bundle", "public/system", "public/uploads", "storage"
