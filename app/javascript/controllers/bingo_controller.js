@@ -12,13 +12,20 @@ export default class extends Controller {
     this.stop() // Clear any existing interval
 
     // Reset styles
-    this.numberTarget.classList.remove("text-amber-500", "scale-125", "transition-transform", "duration-500", "ease-out")
+    this.numberTarget.classList.remove("text-amber-500", "scale-125")
     this.numberTarget.classList.add("text-indigo-600")
+
+    // Add recoil effect
+    this.numberTarget.classList.add("scale-90")
+    setTimeout(() => {
+      this.numberTarget.classList.remove("scale-90")
+    }, 50)
+
 
     this.interval = setInterval(() => {
       const randomNum = Math.floor(Math.random() * 75) + 1
       this.numberTarget.textContent = randomNum
-    }, 50)
+    }, 25)
   }
 
   stop() {
