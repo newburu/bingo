@@ -73,4 +73,4 @@ gem "capistrano-rails", "~> 1.7"
 gem "capistrano-rbenv"
 gem "capistrano3-puma"
 
-gem "meta-tags", "~> 2.22"
+gem "meta-tags", "~> 2.23"
